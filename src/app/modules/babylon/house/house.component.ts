@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { EngineService } from '../engine.service';
 
 @Component({
   selector: 'app-house',
@@ -6,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./house.component.scss'],
 })
 export class HouseComponent implements OnInit {
-  constructor() {}
+  @ViewChild('rendererCanvas', { static: true })
+  public rendererCanvas: ElementRef<HTMLCanvasElement>;
 
-  ngOnInit(): void {}
+  constructor(private engineService: EngineService) {}
+
+  ngOnInit(): void {
+    this.engineService.createScene(this.rendererCanvas);
+    this.engineService.animate();
+  }
 }
