@@ -18,6 +18,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.rendererCanvas.nativeElement?.focus();
     this.engineService.animate();
   }
 }
