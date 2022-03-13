@@ -31,22 +31,20 @@ export class EngineService {
   }
 
   public animate(): void {
-    this.ngZone.runOutsideAngular(() => {
-      const rendererLoopCallback = () => {
-        this.scene.render();
-      };
+    const rendererLoopCallback = () => {
+      this.scene.render();
+    };
 
-      if (this.document.readyState !== 'loading') {
+    if (this.document.readyState !== 'loading') {
+      this.engine.runRenderLoop(rendererLoopCallback);
+    } else {
+      this.window.addEventListener('DOMContentLoaded', () => {
         this.engine.runRenderLoop(rendererLoopCallback);
-      } else {
-        this.window.addEventListener('DOMContentLoaded', () => {
-          this.engine.runRenderLoop(rendererLoopCallback);
-        });
-      }
-
-      this.window.addEventListener('resize', () => {
-        this.engine.resize();
       });
+    }
+
+    this.window.addEventListener('resize', () => {
+      this.engine.resize();
     });
   }
 }

@@ -1,12 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EngineService } from '../engine.service';
 
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
   styleUrls: ['./house.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HouseComponent implements OnInit {
+export class HouseComponent implements OnInit, AfterViewInit {
   @ViewChild('rendererCanvas', { static: true })
   public rendererCanvas: ElementRef<HTMLCanvasElement>;
 
@@ -14,6 +15,9 @@ export class HouseComponent implements OnInit {
 
   ngOnInit(): void {
     this.engineService.createScene(this.rendererCanvas);
+  }
+
+  ngAfterViewInit(): void {
     this.engineService.animate();
   }
 }
